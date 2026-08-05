@@ -1,0 +1,144 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Claude Code 共享环境</title>
+<style>
+  :root { color-scheme: light dark; --fg:#1a1a1a; --dim:#666; --line:#e3e3e3;
+          --bg:#fff; --card:#fafafa; --accent:#b5501f; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e8e8e8; --dim:#9a9a9a; --line:#333; --bg:#151515; --card:#1e1e1e; --accent:#e0854f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0 auto; max-width:44rem; padding:2.5rem 1.2rem 5rem;
+         background:var(--bg); color:var(--fg); line-height:1.75;
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; }
+  h1 { font-size:1.7rem; margin:0 0 .3rem; letter-spacing:-.01em; }
+  h2 { font-size:1.15rem; margin:2.6rem 0 .8rem; padding-top:1.4rem; border-top:1px solid var(--line); }
+  h3 { font-size:1rem; margin:1.6rem 0 .4rem; }
+  p, li { font-size:.97rem; }
+  .lede { color:var(--dim); margin:0 0 1.6rem; font-size:1.02rem; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+          padding:1rem 1.2rem; margin:1rem 0; }
+  .price { font-size:1.5rem; font-weight:600; color:var(--accent); }
+  table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.93rem; display:block; overflow-x:auto; }
+  th, td { text-align:left; padding:.55rem .7rem; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { color:var(--dim); font-weight:600; }
+  code { background:var(--card); border:1px solid var(--line); border-radius:4px;
+         padding:.1rem .35rem; font-size:.88em; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:8px;
+        padding:.9rem 1rem; overflow-x:auto; font-size:.88rem; }
+  pre code { background:none; border:none; padding:0; }
+  ul { padding-left:1.3rem; }
+  .note { color:var(--dim); font-size:.9rem; }
+  footer { margin-top:3.5rem; padding-top:1.2rem; border-top:1px solid var(--line);
+           color:var(--dim); font-size:.88rem; }
+</style>
+
+<h1>Claude Code 共享环境</h1>
+<p class="lede">在自己的电脑上正常使用 Claude Code，不需要自备代理，也不需要自己的账号。</p>
+
+<div class="card">
+  <strong>一句话</strong>：装一个安装包，之后照常敲 <code>claude</code>。代码和文件都在自己电脑上，
+  只有发给模型的那部分请求经由服务器转发。
+</div>
+
+<h2>解决的是什么问题</h2>
+<p>想用 Claude Code，通常要同时凑齐三样东西：一个可用的账号、一条稳定的网络出口、以及把两者接起来的配置。
+任何一样出问题，命令行里看到的都只是一句连接失败。</p>
+<p>这里把这三样都放在服务器上，使用者那边只需要一个 Linux 终端环境。</p>
+
+<h2>使用者需要准备什么</h2>
+<table>
+  <tr><th>系统</th><th>需要的环境</th></tr>
+  <tr><td>Windows</td><td>WSL（Ubuntu 即可）</td></tr>
+  <tr><td>macOS</td><td>自带终端</td></tr>
+  <tr><td>Linux</td><td>直接可用</td></tr>
+</table>
+<p>除此之外不需要别的：不需要自己的 Claude 账号，不需要自己的代理，不需要配置任何环境变量。</p>
+
+<h2>怎么运行的</h2>
+<p>安装包会在本机装两样东西：一条到服务器的加密隧道，和一个启动器。</p>
+<pre><code>你的电脑                        服务器
+────────                       ────────
+claude（本机运行，读写本机文件）
+   └─ 模型请求 ──加密隧道──▶ 账号与网络出口 ──▶ 官方 API
+</code></pre>
+<ul>
+  <li><strong>代码不出本机</strong>：Claude Code 跑在你自己电脑上，读写的是你自己的文件。</li>
+  <li><strong>本机不持有任何凭据</strong>：账号凭据只存在于服务器上，使用者拿不到、也不需要拿到。</li>
+  <li><strong>断线自愈</strong>：隧道有常驻守护，休眠、换网络之后会自动接回。</li>
+</ul>
+
+<h3>另外两种用法</h3>
+<p>除了在本机跑，也可以直接登录服务器上的独立环境干活，或者在本机与服务器之间同步文件。
+安装包里都带好了，用不上可以忽略。</p>
+
+<h2>环境与隔离</h2>
+<ul>
+  <li><strong>每人一套独立环境</strong>：独立账号、独立家目录，互相看不到对方的文件和进程。</li>
+  <li><strong>凭据不落到使用者手里</strong>：请求在服务器侧补齐认证，使用者侧接触不到凭据本身。</li>
+  <li><strong>用量逐条记账</strong>：每一次请求的模型与 token 消耗都有记录，账目可查、可对。</li>
+  <li><strong>网络出口经过实测</strong>：出口节点是长期跑下来验证过可用的，不是随手挑的。</li>
+</ul>
+<p class="note">隔离与记账都是按结果验证过的，不是"配置上应该如此"。</p>
+
+<h2>计费</h2>
+
+<h3>免费试用</h3>
+<div class="card">
+  <div class="price">$5 额度 / 3 小时</div>
+  <p style="margin:.4rem 0 0">每人一次。额度和时长以先到者为准，用完即止。
+  试用期间数据保留，后续续费可直接接着用，不需要重装。</p>
+</div>
+
+<h3>拼车（按周订阅）</h3>
+<div class="card">
+  <div class="price">充值 1 ： 额度 10</div>
+  <p style="margin:.4rem 0 0">额度以美元计价，按 Anthropic 官方 API 价格折算实际消耗。
+  也就是说，同样的用量，成本约为直接调官方 API 的十分之一。</p>
+  <p class="note" style="margin:.6rem 0 0">
+  订阅按周结算，周期与账号的周额度刷新时间同步，到点自动进入下一周期。</p>
+</div>
+
+<h3>独享</h3>
+<div class="card">
+  <p style="margin:0">同样的方案，独立账号与独立环境，不与他人共享额度。适合用量大或需要稳定预期的情况。
+  按需报价。</p>
+</div>
+
+<h3>额度怎么算</h3>
+<p>按实际消耗的 token 折算成美元，规则与官方定价一致：区分模型、区分输入输出、缓存读写按官方倍率计。
+账目逐条可查，随时可以要一份自己的用量明细。</p>
+<p>额度用尽只会停止发送新请求，<strong>不影响登录，也不影响已有数据</strong>，充值后立即恢复。</p>
+
+<h2>常见问题</h2>
+
+<h3>需要我自己有 Claude 账号吗</h3>
+<p>不需要。</p>
+
+<h3>需要我自己有代理吗</h3>
+<p>不需要。网络出口在服务器侧，本机不需要任何代理配置。</p>
+
+<h3>我的代码会被看到吗</h3>
+<p>在本机运行时，代码和文件始终在你自己的电脑上，不会上传。
+如果选择登录服务器干活，那部分文件在你自己的独立家目录里，其他使用者看不到。</p>
+
+<h3>Windows 能用吗</h3>
+<p>能，装 WSL 即可，安装包在 WSL 里运行。</p>
+
+<h3>额度用完了会怎样</h3>
+<p>只会停止发送新请求。登录、文件、环境都不受影响，充值后立刻恢复，不需要重装。</p>
+
+<h3>时长到期了会怎样</h3>
+<p>暂停登录，但账号、家目录和数据全部保留，续费即可继续，不需要重新安装或重新配置。</p>
+
+<h3>能自己装东西吗</h3>
+<p>可以，环境是完整的 Linux 用户环境。</p>
+
+<h3>怎么开始</h3>
+<p>拿到安装包之后解压，运行 <code>./install.sh</code>，之后照提示敲一条命令即可。整个过程一两分钟。</p>
+
+<footer>
+  有意向或有问题，直接联系即可。<br>
+  <span class="note">本页仅供已联系的使用者参考。</span>
+</footer>
