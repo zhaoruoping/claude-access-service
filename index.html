@@ -63,6 +63,7 @@
   <ol>
     <li><a href="#way1">方式一 · 共享环境</a>
       <ul>
+        <li><a href="#w1-notrelay">这不是 API 中转</a></li>
         <li><a href="#w1-scope">适用范围</a></li>
         <li><a href="#w1-need">环境要求</a></li>
         <li><a href="#w1-how">运行方式</a></li>
@@ -84,6 +85,19 @@
 </nav>
 
 <h2 id="way1">方式一 · 共享环境<span class="tag">仅 Claude Code</span></h2>
+
+<h3 id="w1-notrelay">这不是 API 中转</h3>
+<p>形式上有相似之处——都是把请求发到一个中间端点——但性质不同。</p>
+<table>
+  <tr><th></th><th>API 中转站</th><th>本方式</th></tr>
+  <tr><td>上游</td><td>按量计费的 API</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
+  <tr><td>拿到手的</td><td>一把 api key，可接任意客户端</td><td>一套配好的环境，<strong>不发放任何 key</strong></td></tr>
+  <tr><td>可用客户端</td><td>任意</td><td>仅 Claude Code</td></tr>
+  <tr><td>身份识别</td><td>按 key</td><td>按系统用户，key 无从冒用</td></tr>
+  <tr><td>可用性维护</td><td>只提供一个地址</td><td>隧道、网络出口、断线重连均由服务端维护</td></tr>
+</table>
+<p><strong>「按官方 API 价折算」只是计价口径</strong>，用来把用量换算成可比较的金额，
+并不表示上游走的是 API 计费。</p>
 
 <h3 id="w1-scope">适用范围</h3>
 <p>本方式提供的是 <strong>Claude Code 命令行</strong>的使用能力，
@@ -222,6 +236,11 @@ claude（本机运行，读写本机文件）
 <p class="note">两种方式互不影响，可先按方式一试用，再转方式二自行持有。</p>
 
 <h2 id="faq">常见问题</h2>
+
+<h3>这和 API 中转站是一回事吗</h3>
+<p>不是。中转站转售的是按量计费的 API 额度并发放 api key；本方式的上游是服务器上的
+Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境，不发放任何 key。
+计费时按官方 API 价折算，那只是把用量换算成可比较金额的口径。详见方式一首节。</p>
 
 <h3>是否需要自备 Claude 账号</h3>
 <p>方式一不需要。方式二需要，开通后账号归本人所有。</p>
