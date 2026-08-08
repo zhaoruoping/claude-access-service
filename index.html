@@ -114,11 +114,11 @@
 <p>无其他要求：不需要 Claude 账号，不需要代理，不需要配置环境变量。</p>
 
 <h3 id="w1-how">运行方式</h3>
-<p>安装包在本机装入一条到服务器的加密隧道和一个启动器。安装后照常运行 <code>claude</code>，
-Claude Code 在本机执行，读写本机文件；仅模型请求经隧道由服务器转发。</p>
-<pre><code>本机                            服务器
-────────                       ────────
-claude（本机运行，读写本机文件）
+<p>凭证包在本机装入一条到服务器的加密隧道和一个启动器。安装后运行
+<code>sharedcc-claude</code>，Claude Code 在本机执行，读写本机文件；仅模型请求经隧道由服务器转发。</p>
+<pre><code>本机                                      服务器
+────────                                 ────────
+sharedcc-claude（本机运行，读写本机文件）
    └─ 模型请求 ──加密隧道──▶ 账号与网络出口 ──▶ 官方 API
 </code></pre>
 <ul>
@@ -126,8 +126,9 @@ claude（本机运行，读写本机文件）
   <li><strong>本机不持有凭据</strong>：账号凭据仅存在于服务器，使用者侧不接触。</li>
   <li><strong>断线自愈</strong>：隧道有常驻守护，休眠或切换网络后自动重连。</li>
 </ul>
-<h4>附带的两项功能</h4>
-<p>安装包同时提供登录服务器上的独立环境作业，以及本机与服务器之间的文件同步。按需使用。</p>
+<h4>附带功能</h4>
+<p><code>sharedcc-claude --ssh</code> 可登录服务器上的独立环境作业。该环境预装 Claude Code，
+为完整的 Linux 用户环境。按需使用。</p>
 
 <h3 id="w1-sec">隔离与记账</h3>
 <ul>
@@ -144,20 +145,22 @@ claude（本机运行，读写本机文件）
 <h4>免费测试</h4>
 <div class="card">
   <div class="price">$5 额度 / 3 小时</div>
-  <p style="margin:.4rem 0 0">每人一次，额度与时长以先到者为准。
-  测试期间数据保留，后续续费可直接继续使用，无需重装。</p>
+  <p style="margin:.4rem 0 0">每人一次。额度与时长两项独立计算，任一用尽即停止对应部分：
+  额度用尽停止发送新请求，时长到期暂停登录。
+  数据保留，充值后可直接继续使用，无需重装。</p>
 </div>
 
 <h4>临时拼车 · 按周订阅</h4>
 <div class="card">
-  <div class="price">充值 1 ： 额度 10</div>
+  <div class="price">实付 1 ： 额度 20</div>
   <p style="margin:.4rem 0 0">额度以美元计价，按 Anthropic 官方 API 价格折算实际消耗。
-  同等用量下，成本约为直接调用官方 API 的十分之一。</p>
-  <p style="margin:.6rem 0 0"><strong>最低 ¥50 起充</strong>。充值金额按 1:10 折算为额度，
+  同等用量下，成本约为直接调用官方 API 的二十分之一。</p>
+  <p style="margin:.6rem 0 0"><strong>最低 ¥50 起充</strong>。实付金额按 1:20 折算为额度，
   按 <strong>固定汇率 ¥7 / $1</strong> 换算成美元结算（固定而非浮动，账目任何时候都能复算）。
-  例：充值 ¥50 → 额度 ¥500 → <strong>$71.43</strong> 可用额度。</p>
+  例：实付 ¥50 → 额度 ¥1,000 → <strong>$142.86</strong> 可用额度。</p>
   <p class="note" style="margin:.6rem 0 0">
-  按周结算，周期与账号的周额度刷新时间同步，到期自动进入下一周期。</p>
+  额度绑定周期，周期与账号的周额度刷新时刻同步。<strong>额度在该时刻失效，未用完的部分不结转</strong>，
+  继续使用需重新充值。</p>
 </div>
 
 <h4>车队</h4>
@@ -231,7 +234,7 @@ claude（本机运行，读写本机文件）
   <tr><td>自备账号</td><td>不需要</td><td>需要，且归本人所有</td></tr>
   <tr><td>自备网络环境</td><td>不需要</td><td>需要</td></tr>
   <tr><td>起步成本</td><td>可先免费测试</td><td>订阅原价 + 一次性服务费</td></tr>
-  <tr><td>长期成本</td><td>按用量计，约官方 API 价的十分之一</td><td>订阅原价</td></tr>
+  <tr><td>长期成本</td><td>按用量计，约官方 API 价的二十分之一</td><td>订阅原价</td></tr>
   <tr><td>上手时间</td><td>一至两分钟</td><td>取决于开通流程</td></tr>
 </table>
 <p class="note">两种方式互不影响，可先按方式一试用，再转方式二自行持有。</p>
@@ -269,7 +272,8 @@ Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境，不�
 <p>可以，环境为完整的 Linux 用户环境。</p>
 
 <h3>如何开始</h3>
-<p>方式一：解压安装包后运行 <code>./install.sh</code>，按提示执行一条命令即可，全程一至两分钟。<br>
+<p>方式一：解压凭证包后运行 <code>./install.sh</code>，随后运行 <code>sharedcc-claude</code>，
+全程一至两分钟。<a href="sharedcc.html">详见 SharedCC 说明页</a>。<br>
 方式二：联系说明所需档位。</p>
 
 <h2 id="contact">联系</h2>
