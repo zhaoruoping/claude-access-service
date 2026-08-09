@@ -2,282 +2,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Claude 使用方案</title>
-<style>
-  :root { color-scheme: light dark; --fg:#1a1a1a; --dim:#666; --line:#e3e3e3;
-          --bg:#fff; --card:#fafafa; --accent:#b5501f; }
-  @media (prefers-color-scheme: dark) {
-    :root { --fg:#e8e8e8; --dim:#9a9a9a; --line:#333; --bg:#151515; --card:#1e1e1e; --accent:#e0854f; }
-  }
-  * { box-sizing: border-box; }
-  body { margin:0 auto; max-width:44rem; padding:2.5rem 1.2rem 5rem;
-         background:var(--bg); color:var(--fg); line-height:1.75;
-         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; }
-  h1 { font-size:1.7rem; margin:0 0 .3rem; letter-spacing:-.01em; }
-  h2 { font-size:1.22rem; margin:3rem 0 .9rem; padding-top:1.5rem; border-top:2px solid var(--line); scroll-margin-top:1rem; }
-  h3 { font-size:1.02rem; margin:1.7rem 0 .4rem; }
-  h4 { font-size:.95rem; margin:1.3rem 0 .3rem; color:var(--dim); }
-  p, li { font-size:.97rem; }
-  .lede { color:var(--dim); margin:0 0 1.4rem; font-size:1.02rem; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px;
-          padding:1rem 1.2rem; margin:1rem 0; }
-  .price { font-size:1.45rem; font-weight:600; color:var(--accent); }
-  nav { background:var(--card); border:1px solid var(--line); border-radius:10px;
-        padding:1rem 1.3rem; margin:1.6rem 0 0; }
-  nav strong { display:block; font-size:.88rem; color:var(--dim); margin-bottom:.5rem;
-               font-weight:600; letter-spacing:.03em; }
-  nav ol { margin:0; padding-left:1.2rem; }
-  nav li { margin:.25rem 0; font-size:.95rem; }
-  nav ul { margin:.2rem 0 .5rem; padding-left:1.1rem; list-style:none; }
-  nav ul li { font-size:.9rem; color:var(--dim); margin:.15rem 0; }
-  a { color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; }
-  a:hover { border-bottom-color:var(--accent); }
-  table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.93rem; display:block; overflow-x:auto; }
-  th, td { text-align:left; padding:.55rem .7rem; border-bottom:1px solid var(--line); white-space:nowrap; }
-  th { color:var(--dim); font-weight:600; }
-  code { background:var(--card); border:1px solid var(--line); border-radius:4px;
-         padding:.1rem .35rem; font-size:.88em; }
-  pre { background:var(--card); border:1px solid var(--line); border-radius:8px;
-        padding:.9rem 1rem; overflow-x:auto; font-size:.88rem; }
-  pre code { background:none; border:none; padding:0; }
-  ul { padding-left:1.3rem; }
-  .note { color:var(--dim); font-size:.9rem; }
-  .tag { display:inline-block; font-size:.78rem; color:var(--dim);
-         border:1px solid var(--line); border-radius:20px; padding:.05rem .6rem; margin-left:.4rem;
-         vertical-align:middle; }
-  footer { margin-top:3.5rem; padding-top:1.2rem; border-top:1px solid var(--line);
-           color:var(--dim); font-size:.88rem; }
-</style>
+<link rel="stylesheet" href="style.css">
 
 <h1>Claude 使用方案</h1>
-<p class="lede">两种方式，独立并行。</p>
+<p class="lede">三种服务，独立并行，可相互切换。</p>
 
-<div class="card">
-  <p style="margin:0"><strong>方式一 · 共享环境</strong>：使用服务器上的账号与网络出口，
-  无需自备账号与代理。<strong>仅支持 Claude Code</strong>（命令行）。</p>
-  <p style="margin:.5rem 0 0"><strong>方式二 · 协助订阅</strong>：以本人身份与支付方式开通订阅，
-  账号归本人所有。网页版、桌面端、Claude Code 均可使用。</p>
-</div>
+<a class="svc" href="subscribe.html">
+  <b>一 · Claude 订阅协助</b>
+  <span>以本人身份与支付方式开通订阅，账号归本人所有。网页版、桌面端、Claude Code 均可使用。</span>
+</a>
 
-<nav>
-  <strong>目录</strong>
-  <ol>
-    <li><a href="#way1">方式一 · 共享环境</a>
-      <ul>
-        <li><a href="#w1-notrelay">这不是 API 中转</a></li>
-        <li><a href="#w1-scope">适用范围</a></li>
-        <li><a href="#w1-need">环境要求</a></li>
-        <li><a href="#w1-how">运行方式</a></li>
-        <li><a href="#w1-sec">隔离与记账</a></li>
-        <li><a href="#w1-price">计费</a></li>
-      </ul>
-    </li>
-    <li><a href="#way2">方式二 · 协助订阅与环境配置</a>
-      <ul>
-        <li><a href="#w2-scope">适用范围</a></li>
-        <li><a href="#w2-price">费用</a></li>
-        <li><a href="#w2-incl">服务费包含</a></li>
-      </ul>
-    </li>
-    <li><a href="#compare">两种方式对比</a></li>
-    <li><a href="#faq">常见问题</a></li>
-    <li><a href="#contact">联系</a></li>
-  </ol>
-</nav>
+<a class="svc" href="shared.html">
+  <b>二 · Claude Max 拼车共享</b>
+  <span>使用服务器上的账号与网络出口，多人共享，按实际用量计费。仅支持 Claude Code。</span>
+</a>
 
-<h2 id="way1">方式一 · 共享环境<span class="tag">仅 Claude Code</span></h2>
+<a class="svc" href="hosted.html">
+  <b>三 · Claude 账号托管</b>
+  <span>与拼车共享同一套使用方式，账号个人独享，额度不与他人共享。仅支持 Claude Code。</span>
+</a>
 
-<h3 id="w1-notrelay">这不是 API 中转</h3>
-<p>形式上有相似之处——都是把请求发到一个中间端点——但性质不同。</p>
+<h2 id="compare">三种服务对比</h2>
 <table>
-  <tr><th></th><th>API 中转站</th><th>本方式</th></tr>
-  <tr><td>上游</td><td>按量计费的 API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
-  <tr><td>可用客户端</td><td>任意</td><td>仅 Claude Code</td></tr>
-  <tr><td>客户端</td><td>自行配置</td><td>提供安装命令，自动安装与更新</td></tr>
-  <tr><td>网络出口</td><td>只提供一个地址</td><td>出口在美国服务器，固定不变</td></tr>
+  <tr><th></th><th>订阅协助</th><th>拼车共享</th><th>账号托管</th></tr>
+  <tr><td>账号归属</td><td><strong>本人所有</strong></td><td>服务器侧，多人共享</td><td>服务器侧，个人独享</td></tr>
+  <tr><td>可用客户端</td><td>网页 / 桌面 / Claude Code</td><td>仅 Claude Code</td><td>仅 Claude Code</td></tr>
+  <tr><td>自备网络环境</td><td>需要，或采用推荐方案</td><td>不需要</td><td>不需要</td></tr>
+  <tr><td>计费</td><td>订阅原价 + 一次性服务费</td><td>按用量，充值 1:15</td><td>按需报价</td></tr>
+  <tr><td>额度与他人共享</td><td>不适用</td><td>共享一个账号</td><td><strong>不共享</strong></td></tr>
+  <tr><td>上手时间</td><td>取决于开通流程</td><td>一至两分钟</td><td>一至两分钟</td></tr>
 </table>
-<p><strong>「按官方 API 价折算」只是计价口径</strong>，用来把用量换算成可比较的金额，
-并不表示上游走的是 API 计费。</p>
-
-<h3 id="w1-scope">适用范围</h3>
-<p>本方式提供的是 <strong>Claude Code 命令行</strong>的使用能力，
-<strong>不包含</strong>网页版 claude.ai 与桌面端。需要网页版或桌面端的，见方式二。</p>
-<p>账号与网络出口均在服务器侧，使用者无需自备 Claude 账号，也无需自备代理。</p>
-
-<h3 id="w1-need">环境要求</h3>
-<table>
-  <tr><th>系统</th><th>所需环境</th></tr>
-  <tr><td>Windows</td><td>WSL（Ubuntu 即可）</td></tr>
-  <tr><td>macOS</td><td>自带终端</td></tr>
-  <tr><td>Linux</td><td>直接可用</td></tr>
-</table>
-<p>不需要 Claude 账号，不需要代理，不需要配置环境变量。
-另需 <code>curl</code> 与 Python 3.8 以上，多数系统已自带。</p>
-
-<h3 id="w1-how">运行方式</h3>
-<p>一条命令装好客户端并配置完成：</p>
-<pre><code>curl -fsSL https://srv1890566.hstgr.cloud/install.sh | sh</code></pre>
-<p>随后运行 <code>sharedcc-claude</code>，Claude Code 在本机执行，读写本机文件；
-仅模型请求经 HTTPS 发往服务器转发。</p>
-<pre><code>本机                                      服务器
-────────                                 ────────
-sharedcc-claude（本机运行，读写本机文件）
-   └─ 模型请求 ───HTTPS───▶ 账号与网络出口 ──▶ 官方上游
-</code></pre>
-<ul>
-  <li><strong>代码不出本机</strong>：Claude Code 在本机运行，读写的是本机文件。</li>
-  <li><strong>本机不持有账号凭据</strong>：Claude 账号的凭据仅存在于服务器，使用者侧不接触。</li>
-  <li><strong>直连</strong>：服务器有公网地址，客户端直接连接，无中间环节。</li>
-</ul>
-
-<h3 id="w1-sec">隔离与记账</h3>
-<ul>
-  <li><strong>不保存对话内容</strong>：Claude Code 运行在本机，服务器只做两件事——转发模型请求、
-  记录 token 用量。账目的字段是固定白名单（时间、用户、模型、状态、token 数），
-  请求与回复的正文不写入任何日志。</li>
-  <li><strong>账号凭据不外发</strong>：认证在服务器侧补齐，使用者侧接触不到 Claude 账号的凭据。</li>
-  <li><strong>用量逐条记录</strong>：每次请求的模型与 token 消耗均有记录，账目可查、可核对。</li>
-  <li><strong>按 key 归属</strong>：每次请求归属到本人的 key，账目互不混算。</li>
-  <li><strong>出口固定</strong>：网络出口在服务器侧，出口地址长期不变。</li>
-</ul>
-<p class="note">记账与隔离按实际结果验证，非仅配置声明。</p>
-
-<h3 id="w1-price">计费</h3>
-<p>四档，可相互切换，无需重装。</p>
-
-<h4>免费测试</h4>
-<div class="card">
-  <div class="price">额度 ¥35</div>
-  <p style="margin:.4rem 0 0">每人一次。额度用尽停止发送新请求，本机文件不受影响。
-  充值后可直接继续使用，无需重装。</p>
-</div>
-
-<h4>临时拼车 · 按周订阅</h4>
-<div class="card">
-  <div class="price">实付 1 ： 额度 20</div>
-  <p style="margin:.4rem 0 0">额度按 Anthropic 官方 API 价格折算实际消耗。
-  同等用量下，成本约为直接调用官方 API 的二十分之一。</p>
-  <p style="margin:.6rem 0 0"><strong>最低 ¥50 起充</strong>。实付金额按 1:20 折算为额度。
-  例：实付 ¥50 → 额度 ¥1,000。结算汇率<strong>固定为 ¥7 / $1</strong>，
-  固定而非浮动，账目任何时候都能复算。</p>
-  <p class="note" style="margin:.6rem 0 0">
-  额度绑定周期，周期与账号的周额度刷新时刻同步。<strong>额度在该时刻失效，未用完的部分不结转</strong>，
-  继续使用需重新充值。</p>
-</div>
-
-<h4>车队</h4>
-<div class="card">
-  <p style="margin:0">人数确定后可组固定车队，单价与临时拼车一致，额度按车队整体安排。
-  适用于同一课题组或同一项目共同使用。</p>
-</div>
-
-<h4>独享</h4>
-<div class="card">
-  <p style="margin:0">独立账号与独立环境，额度不与他人共享。适用于用量较大或需要稳定预期的情况。按需报价。</p>
-</div>
-
-<h4>额度计算</h4>
-<p>按实际消耗的 token 折算为美元，规则与官方定价一致：区分模型、区分输入输出，缓存读写按官方倍率计。
-账目逐条可查，可随时索取本人的用量明细。</p>
-<p>额度用尽仅停止发送新请求，<strong>本机文件不受影响</strong>，充值后立即恢复。</p>
-
-<h2 id="way2">方式二 · 协助订阅与环境配置<span class="tag">账号归本人所有</span></h2>
-
-<h3 id="w2-scope">适用范围</h3>
-<p>以本人身份与支付方式开通 Claude 订阅，开通后账号完全归本人所有。
-可使用<strong>网页版 claude.ai、桌面端与 Claude Code</strong>，与自行开通的账号无差别。</p>
-<p>适用情况：</p>
-<ul>
-  <li>需要网页版或桌面端，不限于命令行</li>
-  <li>需要长期持有属于本人的账号</li>
-  <li>已有网络环境，或可按推荐方案配置</li>
-</ul>
-
-<h3 id="w2-price">费用</h3>
-<table>
-  <tr><th>档位</th><th>服务费（一次性）</th></tr>
-  <tr><td>Pro</td><td>¥50</td></tr>
-  <tr><td>Max 5x</td><td>¥100</td></tr>
-  <tr><td>Max 20x</td><td>¥200</td></tr>
-</table>
-<p>订阅费按<strong>官方原价</strong>，依当日汇率与充值渠道的实际损耗据实结算，不加价。
-上表为一次性服务费，包含开通协助、使用环境配置与上手带教三项，详见下节。</p>
-
-<h3 id="w2-incl">服务费包含</h3>
-<p>服务费为一次性收取，包含以下三项。</p>
-
-<h4>一、开通全流程协助</h4>
-<ul>
-  <li>注册与订阅开通的完整流程协助，直至账号可正常使用</li>
-  <li>支付环节协助：订阅通过礼品卡支付</li>
-  <li>档位选择建议：按实际用量判断 Pro、Max 5x、Max 20x 哪一档合适，不多卖</li>
-</ul>
-
-<h4>二、使用环境配置</h4>
-<ul>
-  <li>提供长期在用、实测稳定的网络节点方案；无现成环境者可直接沿用</li>
-  <li><strong>出口固定、区域一致</strong>：出口频繁跳变、区域来回切换是账号被风控的常见诱因，
-      配置到位可以避免这类问题</li>
-  <li>环境自检方法：如何确认当前出口正常、配置未失效</li>
-</ul>
-
-<h4>三、上手带教</h4>
-<ul>
-  <li>Claude Code 的安装与基本使用演示</li>
-  <li>常见问题的排查思路</li>
-</ul>
-
-<p class="note">本方式需自备网络环境或采用推荐方案；账号与订阅的所有权及支付均在本人名下。</p>
-
-<h2 id="compare">两种方式对比</h2>
-<table>
-  <tr><th></th><th>方式一 共享环境</th><th>方式二 协助订阅</th></tr>
-  <tr><td>可用范围</td><td><strong>仅 Claude Code</strong></td><td><strong>网页版 / 桌面端 / Claude Code</strong></td></tr>
-  <tr><td>自备账号</td><td>不需要</td><td>需要，且归本人所有</td></tr>
-  <tr><td>自备网络环境</td><td>不需要</td><td>需要</td></tr>
-  <tr><td>起步成本</td><td>可先免费测试</td><td>订阅原价 + 一次性服务费</td></tr>
-  <tr><td>长期成本</td><td>按用量计，约官方 API 价的二十分之一</td><td>订阅原价</td></tr>
-  <tr><td>上手时间</td><td>一至两分钟</td><td>取决于开通流程</td></tr>
-</table>
-<p class="note">两种方式互不影响，可先按方式一试用，再转方式二自行持有。</p>
-
-<h2 id="faq">常见问题</h2>
-
-<h3>这和 API 中转站是一回事吗</h3>
-<p>不是。中转站转售的是按量计费的 API 额度；本方式的上游是服务器上的
-Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境。
-计费时按官方 API 价折算，那只是把用量换算成可比较金额的口径。详见方式一首节。</p>
-
-<h3>是否需要自备 Claude 账号</h3>
-<p>方式一不需要。方式二需要，开通后账号归本人所有。</p>
-
-<h3>是否需要自备代理</h3>
-<p>方式一不需要，网络出口在服务器侧。方式二需要自备，或采用推荐方案。</p>
-
-<h3>能否使用网页版 claude.ai</h3>
-<p>方式一不可以，仅提供 Claude Code 命令行。需要网页版或桌面端请选择方式二。</p>
-
-<h3>代码是否会被上传</h3>
-<p>不会。方式一的 Claude Code 运行在本机，代码与文件始终在本机。
-服务器只转发模型请求并记录 token 用量，对话内容不写入任何日志。</p>
-
-<h3>Windows 是否可用</h3>
-<p>可用。安装 WSL 后在 WSL 中执行安装命令。</p>
-
-<h3>额度用尽后如何处理</h3>
-<p>仅停止发送新请求。本机文件不受影响，充值后立即恢复，无需重装。</p>
-
-<h3>是否会改动本机原有的 Claude 配置</h3>
-<p>不会。客户端的配置与会话历史都在自己的目录内，本机原有的 <code>claude</code>
-与 shell 配置不受影响，两边互不干扰。</p>
-
-<h3>如何开始</h3>
-<p>方式一：执行一条安装命令，按提示粘贴 key，随后运行 <code>sharedcc-claude</code>，
-全程一至两分钟。<a href="sharedcc.html">详见 SharedCC 说明页</a>。<br>
-方式二：联系说明所需档位。</p>
+<p class="note">三种互不影响。可先按拼车共享试用，再转其余两种。</p>
 
 <h2 id="contact">联系</h2>
-<p>两种方式均可咨询。请说明大致用量与使用场景，便于判断适用哪一种。</p>
+<p>请说明大致用量与使用场景，便于判断适用哪一种。</p>
 
 <footer>
-  <span class="note">本页仅供已联系的使用者参考。</span>
+  <span class="note">独立第三方服务，与 Anthropic 无关联。本页仅供已联系的使用者参考。</span>
 </footer>

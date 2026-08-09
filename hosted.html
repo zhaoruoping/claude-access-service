@@ -1,0 +1,61 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Claude 账号托管</title>
+<link rel="stylesheet" href="style.css">
+
+<p class="back"><a href="index.html">← 返回三种服务</a></p>
+
+<h1>Claude 账号托管<span class="tag">仅 Claude Code</span></h1>
+<p class="lede">独立账号与独立环境，额度不与他人共享，账号由服务端代为维护。</p>
+
+<div class="card">
+  <p style="margin:0">使用方式与<a href="shared.html">拼车共享</a>完全相同：
+  在本机运行 Claude Code，读写本机文件，仅模型请求经服务器转发。
+  区别只有一处——<strong>账号是本人独占的，额度不与任何其他使用者共享</strong>。</p>
+</div>
+
+<nav>
+  <strong>目录</strong>
+  <ol>
+    <li><a href="#scope">适用范围</a></li>
+    <li><a href="#diff">与拼车共享的区别</a></li>
+    <li><a href="#use">使用方式</a></li>
+    <li><a href="#price">费用</a></li>
+  </ol>
+</nav>
+
+<h2 id="scope">适用范围</h2>
+<ul>
+  <li>用量较大，或需要稳定可预期的可用量</li>
+  <li>不希望与他人共用同一个账号的额度</li>
+  <li>不需要自行持有账号，也不需要自备网络环境</li>
+</ul>
+<p>需要账号归本人所有、且要用网页版或桌面端的，见<a href="subscribe.html">订阅协助</a>。</p>
+
+<h2 id="diff">与拼车共享的区别</h2>
+<table>
+  <tr><th></th><th>拼车共享</th><th>账号托管</th></tr>
+  <tr><td>账号</td><td>多人共用一个</td><td><strong>本人独占</strong></td></tr>
+  <tr><td>额度</td><td>与其他使用者共享同一个账号的额度</td><td><strong>不与他人共享</strong></td></tr>
+  <tr><td>使用方式</td><td colspan="2" style="text-align:center">相同（同一套客户端与命令）</td></tr>
+  <tr><td>可用客户端</td><td colspan="2" style="text-align:center">仅 Claude Code</td></tr>
+  <tr><td>计费</td><td>充值 1:15</td><td>按需报价</td></tr>
+</table>
+
+<h2 id="use">使用方式</h2>
+<p>与拼车共享一致，安装与命令完全相同：</p>
+<pre><code>curl -fsSL https://srv1890566.hstgr.cloud/install.sh | sh</code></pre>
+<p>执行后按提示粘贴 key，随后运行 <code>sharedcc-claude</code>。
+环境要求、常用命令、会话与配置、记账与隐私等细节见<a href="shared.html">拼车共享说明页</a>，
+两者一致。</p>
+
+<h2 id="price">费用</h2>
+<div class="card">
+  <div class="price">按需报价</div>
+  <p style="margin:.4rem 0 0">按用量规模与使用周期确定。请说明大致用量与使用场景。</p>
+</div>
+
+<footer>
+  <span class="note">独立第三方服务，与 Anthropic 无关联。本页仅供已联系的使用者参考。</span>
+</footer>
