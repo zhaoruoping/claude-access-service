@@ -90,11 +90,10 @@
 <p>形式上有相似之处——都是把请求发到一个中间端点——但性质不同。</p>
 <table>
   <tr><th></th><th>API 中转站</th><th>本方式</th></tr>
-  <tr><td>上游</td><td>按量计费的 API</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
-  <tr><td>拿到手的</td><td>一把 api key，可接任意客户端</td><td>一套配好的环境，<strong>不发放任何 key</strong></td></tr>
+  <tr><td>上游</td><td>按量计费的 API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
   <tr><td>可用客户端</td><td>任意</td><td>仅 Claude Code</td></tr>
-  <tr><td>身份识别</td><td>按 key</td><td>按系统用户，key 无从冒用</td></tr>
-  <tr><td>可用性维护</td><td>只提供一个地址</td><td>隧道、网络出口、断线重连均由服务端维护</td></tr>
+  <tr><td>客户端</td><td>自行配置</td><td>提供安装命令，自动安装与更新</td></tr>
+  <tr><td>网络出口</td><td>只提供一个地址</td><td>出口在美国服务器，固定不变</td></tr>
 </table>
 <p><strong>「按官方 API 价折算」只是计价口径</strong>，用来把用量换算成可比较的金额，
 并不表示上游走的是 API 计费。</p>
@@ -111,57 +110,55 @@
   <tr><td>macOS</td><td>自带终端</td></tr>
   <tr><td>Linux</td><td>直接可用</td></tr>
 </table>
-<p>无其他要求：不需要 Claude 账号，不需要代理，不需要配置环境变量。</p>
+<p>不需要 Claude 账号，不需要代理，不需要配置环境变量。
+另需 <code>curl</code> 与 Python 3.8 以上，多数系统已自带。</p>
 
 <h3 id="w1-how">运行方式</h3>
-<p>凭证包在本机装入一条到服务器的加密隧道和一个启动器。安装后运行
-<code>sharedcc-claude</code>，Claude Code 在本机执行，读写本机文件；仅模型请求经隧道由服务器转发。</p>
+<p>一条命令装好客户端并配置完成：</p>
+<pre><code>curl -fsSL https://srv1890566.hstgr.cloud/install.sh | sh</code></pre>
+<p>随后运行 <code>sharedcc-claude</code>，Claude Code 在本机执行，读写本机文件；
+仅模型请求经 HTTPS 发往服务器转发。</p>
 <pre><code>本机                                      服务器
 ────────                                 ────────
 sharedcc-claude（本机运行，读写本机文件）
-   └─ 模型请求 ──加密隧道──▶ 账号与网络出口 ──▶ 官方 API
+   └─ 模型请求 ───HTTPS───▶ 账号与网络出口 ──▶ 官方上游
 </code></pre>
 <ul>
   <li><strong>代码不出本机</strong>：Claude Code 在本机运行，读写的是本机文件。</li>
-  <li><strong>本机不持有凭据</strong>：账号凭据仅存在于服务器，使用者侧不接触。</li>
-  <li><strong>断线自愈</strong>：隧道有常驻守护，休眠或切换网络后自动重连。</li>
+  <li><strong>本机不持有账号凭据</strong>：Claude 账号的凭据仅存在于服务器，使用者侧不接触。</li>
+  <li><strong>直连</strong>：服务器有公网地址，客户端直接连接，无中间环节。</li>
 </ul>
-<h4>附带功能</h4>
-<p><code>sharedcc-claude --ssh</code> 可登录服务器上的独立环境作业。该环境预装 Claude Code，
-为完整的 Linux 用户环境。按需使用。</p>
 
 <h3 id="w1-sec">隔离与记账</h3>
 <ul>
   <li><strong>不保存对话内容</strong>：Claude Code 运行在本机，服务器只做两件事——转发模型请求、
   记录 token 用量。账目的字段是固定白名单（时间、用户、模型、状态、token 数），
   请求与回复的正文不写入任何日志。</li>
-  <li><strong>凭据不外发</strong>：认证在服务器侧补齐，使用者侧接触不到凭据本身。</li>
+  <li><strong>账号凭据不外发</strong>：认证在服务器侧补齐，使用者侧接触不到 Claude 账号的凭据。</li>
   <li><strong>用量逐条记录</strong>：每次请求的模型与 token 消耗均有记录，账目可查、可核对。</li>
-  <li><strong>互不可见</strong>：登录服务器作业时，每人独立账号与独立家目录，
-  相互看不到文件与进程。</li>
-  <li><strong>出口节点经实测</strong>：长期运行验证过可用性。</li>
+  <li><strong>按 key 归属</strong>：每次请求归属到本人的 key，账目互不混算。</li>
+  <li><strong>出口固定</strong>：网络出口在服务器侧，出口地址长期不变。</li>
 </ul>
-<p class="note">隔离与记账按实际结果验证，非仅配置声明。</p>
+<p class="note">记账与隔离按实际结果验证，非仅配置声明。</p>
 
 <h3 id="w1-price">计费</h3>
 <p>四档，可相互切换，无需重装。</p>
 
 <h4>免费测试</h4>
 <div class="card">
-  <div class="price">$5 额度 / 3 小时</div>
-  <p style="margin:.4rem 0 0">每人一次。额度与时长两项独立计算，任一用尽即停止对应部分：
-  额度用尽停止发送新请求，时长到期暂停登录。
+  <div class="price">额度 ¥35</div>
+  <p style="margin:.4rem 0 0">每人一次。额度用尽停止发送新请求，本机文件不受影响。
   充值后可直接继续使用，无需重装。</p>
 </div>
 
 <h4>临时拼车 · 按周订阅</h4>
 <div class="card">
   <div class="price">实付 1 ： 额度 20</div>
-  <p style="margin:.4rem 0 0">额度以美元计价，按 Anthropic 官方 API 价格折算实际消耗。
+  <p style="margin:.4rem 0 0">额度按 Anthropic 官方 API 价格折算实际消耗。
   同等用量下，成本约为直接调用官方 API 的二十分之一。</p>
-  <p style="margin:.6rem 0 0"><strong>最低 ¥50 起充</strong>。实付金额按 1:20 折算为额度，
-  按 <strong>固定汇率 ¥7 / $1</strong> 换算成美元结算（固定而非浮动，账目任何时候都能复算）。
-  例：实付 ¥50 → 额度 ¥1,000 → <strong>$142.86</strong> 可用额度。</p>
+  <p style="margin:.6rem 0 0"><strong>最低 ¥50 起充</strong>。实付金额按 1:20 折算为额度。
+  例：实付 ¥50 → 额度 ¥1,000。结算汇率<strong>固定为 ¥7 / $1</strong>，
+  固定而非浮动，账目任何时候都能复算。</p>
   <p class="note" style="margin:.6rem 0 0">
   额度绑定周期，周期与账号的周额度刷新时刻同步。<strong>额度在该时刻失效，未用完的部分不结转</strong>，
   继续使用需重新充值。</p>
@@ -169,7 +166,7 @@ sharedcc-claude（本机运行，读写本机文件）
 
 <h4>车队</h4>
 <div class="card">
-  <p style="margin:0">人数确定后可组固定车队，单价与临时拼车一致，额度与时长按车队整体安排。
+  <p style="margin:0">人数确定后可组固定车队，单价与临时拼车一致，额度按车队整体安排。
   适用于同一课题组或同一项目共同使用。</p>
 </div>
 
@@ -181,7 +178,7 @@ sharedcc-claude（本机运行，读写本机文件）
 <h4>额度计算</h4>
 <p>按实际消耗的 token 折算为美元，规则与官方定价一致：区分模型、区分输入输出，缓存读写按官方倍率计。
 账目逐条可查，可随时索取本人的用量明细。</p>
-<p>额度用尽仅停止发送新请求，<strong>不影响登录，本机文件不受影响</strong>，充值后立即恢复。</p>
+<p>额度用尽仅停止发送新请求，<strong>本机文件不受影响</strong>，充值后立即恢复。</p>
 
 <h2 id="way2">方式二 · 协助订阅与环境配置<span class="tag">账号归本人所有</span></h2>
 
@@ -246,8 +243,8 @@ sharedcc-claude（本机运行，读写本机文件）
 <h2 id="faq">常见问题</h2>
 
 <h3>这和 API 中转站是一回事吗</h3>
-<p>不是。中转站转售的是按量计费的 API 额度并发放 api key；本方式的上游是服务器上的
-Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境，不发放任何 key。
+<p>不是。中转站转售的是按量计费的 API 额度；本方式的上游是服务器上的
+Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境。
 计费时按官方 API 价折算，那只是把用量换算成可比较金额的口径。详见方式一首节。</p>
 
 <h3>是否需要自备 Claude 账号</h3>
@@ -261,23 +258,20 @@ Claude Max 订阅账号，提供的是一套配好的 Claude Code 环境，不�
 
 <h3>代码是否会被上传</h3>
 <p>不会。方式一的 Claude Code 运行在本机，代码与文件始终在本机。
-服务器只转发模型请求并记录 token 用量，对话内容不写入任何日志。
-若选择登录服务器作业，该部分文件位于本人的独立家目录，其他使用者不可见。</p>
+服务器只转发模型请求并记录 token 用量，对话内容不写入任何日志。</p>
 
 <h3>Windows 是否可用</h3>
-<p>可用。安装 WSL 后在 WSL 中运行安装包。</p>
+<p>可用。安装 WSL 后在 WSL 中执行安装命令。</p>
 
 <h3>额度用尽后如何处理</h3>
-<p>仅停止发送新请求。登录与本机文件不受影响，充值后立即恢复，无需重装。</p>
+<p>仅停止发送新请求。本机文件不受影响，充值后立即恢复，无需重装。</p>
 
-<h3>时长到期后如何处理</h3>
-<p>暂停登录。续费后继续使用，无需重新安装或配置。</p>
-
-<h3>能否自行安装软件</h3>
-<p>可以，环境为完整的 Linux 用户环境。</p>
+<h3>是否会改动本机原有的 Claude 配置</h3>
+<p>不会。客户端的配置与会话历史都在自己的目录内，本机原有的 <code>claude</code>
+与 shell 配置不受影响，两边互不干扰。</p>
 
 <h3>如何开始</h3>
-<p>方式一：解压凭证包后运行 <code>./install.sh</code>，随后运行 <code>sharedcc-claude</code>，
+<p>方式一：执行一条安装命令，按提示粘贴 key，随后运行 <code>sharedcc-claude</code>，
 全程一至两分钟。<a href="sharedcc.html">详见 SharedCC 说明页</a>。<br>
 方式二：联系说明所需档位。</p>
 
