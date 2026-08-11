@@ -67,7 +67,7 @@
 <h3 id="u-run">运行</h3>
 <pre><code>sharedcc-claude</code></pre>
 <p>Claude Code 运行在本机，处理的是本机文件，本机的编辑器与终端照常使用。
-参数原样转交给本机的 Claude Code，例如 <code>sharedcc-claude -p "..."</code>。</p>
+参数原样转交给本机的 Claude Code，例如 <code>sharedcc-claude --model opus</code>。</p>
 
 <h3 id="u-cmd">常用命令</h3>
 <pre><code>sharedcc-claude --quota     # 剩余额度与额度失效时刻
@@ -98,8 +98,9 @@ sharedcc-claude --help      # 全部命令
 <h3 id="p-topup">充值与额度</h3>
 <div class="card">
   <div class="price">实付 1 ： 额度 15</div>
-  <p style="margin:.4rem 0 0"><strong>最低 ¥50 起充。</strong>实付金额按 1:15 折算为额度。
-  例：实付 ¥50 → 额度 ¥750。</p>
+  <p style="margin:.4rem 0 0">实付 <strong>¥50 及以上</strong>按 <strong>1:15</strong> 折算为额度，
+  例：实付 ¥50 → 额度 ¥750；<strong>¥50 以下</strong>按 <strong>1:10</strong>，
+  例：实付 ¥30 → 额度 ¥300。</p>
   <p style="margin:.6rem 0 0">额度按 Anthropic 官方 API 价格折算实际消耗，
   结算汇率<strong>固定为 ¥7 / $1</strong>。汇率固定而非浮动，账目任何时候都能复算。</p>
 </div>
@@ -133,7 +134,7 @@ sharedcc-claude --help      # 全部命令
 <p>两者都是把请求发往一个中间端点，形式相近，上游不是同一样东西。</p>
 <table>
   <tr><th></th><th>API 中转站</th><th>本服务</th></tr>
-  <tr><td>上游</td><td>按量计费的 API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
+  <tr><td>上游</td><td>API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
   <tr><td>可用客户端</td><td>任意</td><td>仅 Claude Code</td></tr>
   <tr><td>客户端</td><td>自行配置</td><td>提供安装命令，自动安装与更新</td></tr>
   <tr><td>网络出口</td><td>只提供一个地址</td><td>出口在美国服务器，固定不变</td></tr>
