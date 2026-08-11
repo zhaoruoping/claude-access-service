@@ -40,6 +40,13 @@ ul { padding-left:1.3rem; }
 .tag { display:inline-block; font-size:.78rem; color:var(--dim);
        border:1px solid var(--line); border-radius:20px; padding:.05rem .6rem; margin-left:.4rem;
        vertical-align:middle; }
+/* 同一枚标签的两种状态：有质保用主色描边（拼车），无质保保持默认的灰。
+   刻意只改颜色不改形状 —— 三张卡片上的标签要能一眼横向比较。 */
+.tag-yes { color:var(--accent); border-color:var(--accent); }
+/* 🔴 2026-08-11 渲染出来才发现：下面那条 `.svc span{display:block}` 会命中卡片里的
+   标签（选择器权重 11 > `.tag` 的 10）⇒ 标签被拉成整行的方块，压在标题下面一整条。
+   HTML 与 .tag 本身都"没错"，只有截图看得出来。⇒ 用 `.svc .tag`（权重 20）压回去。 */
+.svc .tag { display:inline-block; width:auto; }
 .back { display:inline-block; font-size:.9rem; margin:0 0 1.6rem; color:var(--dim); }
 .back a { color:var(--dim); }
 .svc { display:block; background:var(--card); border:1px solid var(--line); border-radius:10px;
