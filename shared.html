@@ -132,17 +132,6 @@ sharedcc-claude --help      # 全部命令
 
 <h2 id="adv">优势</h2>
 
-<h3 id="a-notrelay">不是 API 中转</h3>
-<p>两者都是把请求发往一个中间端点，形式相近，上游不是同一样东西。</p>
-<table>
-  <tr><th></th><th>API 中转站</th><th>本服务</th></tr>
-  <tr><td>上游</td><td>API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
-  <tr><td>可用客户端</td><td>任意</td><td>仅 Claude Code</td></tr>
-  <tr><td>客户端</td><td>自行配置</td><td>提供安装命令，自动安装与更新</td></tr>
-  <tr><td>网络出口</td><td>只提供一个地址</td><td>出口在美国服务器，固定不变</td></tr>
-</table>
-<p><strong>「按官方 API 价折算」只是计价口径</strong>，用来把用量换算成可比较的金额，
-并不表示上游走的是 API 计费。</p>
 
 <h3 id="a-local">代码不出本机</h3>
 <ul>
