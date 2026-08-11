@@ -122,7 +122,7 @@ sharedcc-claude --help      # 全部命令
 <h2 id="adv">优势</h2>
 
 <h3 id="a-notrelay">不是 API 中转</h3>
-<p>形式上有相似之处——都是把请求发到一个中间端点——但性质不同。</p>
+<p>两者都是把请求发往一个中间端点，形式相近，上游不是同一样东西。</p>
 <table>
   <tr><th></th><th>API 中转站</th><th>本服务</th></tr>
   <tr><td>上游</td><td>按量计费的 API 额度</td><td><strong>服务器上的 Claude Max 订阅账号</strong></td></tr>
@@ -143,22 +143,23 @@ sharedcc-claude --help      # 全部命令
 
 <h3 id="a-ops">可用性由服务端维护</h3>
 <ul>
-  <li><strong>零配置</strong>：无需自备 Claude 账号，无需自备代理，无需配置环境变量。</li>
+  <li><strong>一条命令装完</strong>：安装脚本会一并处理 Claude Code 的安装与更新，无需事先准备。</li>
   <li><strong>直连</strong>：服务器有公网地址，客户端直接连接，无中间环节。</li>
-  <li><strong>出口固定</strong>：网络出口在服务器侧，出口地址长期不变。</li>
-  <li><strong>自更新</strong>：客户端启动时自动检查并更新。</li>
+  <li><strong>出口固定</strong>：网络出口在服务器侧，地址长期不变，不随使用者所在网络变化。</li>
+  <li><strong>自更新</strong>：客户端启动时自动检查并更新，无需手动跟版本。</li>
 </ul>
 
 <h3 id="a-acct">记账与隐私</h3>
 <ul>
   <li><strong>不保存对话内容</strong>：Claude Code 运行在本机，服务器只做两件事——转发模型请求、
-  记录 token 用量。账目的字段是固定白名单（时间、用户、模型、状态、token 数），
-  请求与回复的正文不写入任何日志。</li>
+  记录用量。落到账目里的字段是固定的：时间、使用者、模型、状态、token 数、
+  请求参数（如 max_tokens）与客户端版本标识。
+  <strong>请求与回复的正文不写入任何日志，密钥也不记录。</strong></li>
   <li><strong>用量逐条记录</strong>：每次请求的模型与 token 消耗均有记录，账目可查、可核对。</li>
   <li><strong>额度实时可见</strong>：<code>--quota</code> 显示剩余额度与失效时刻。</li>
   <li><strong>按 key 归属</strong>：每次请求归属到本人的 key，账目互不混算。</li>
 </ul>
-<p class="note">记账与隔离按实际结果验证，非仅配置声明。</p>
+<p class="note">用量明细可随时索取，逐条列出时间、模型与 token 数，与扣减的额度一一对应。</p>
 
 <footer>
   <span class="note">独立第三方服务，与 Anthropic 无关联。本页仅供已联系的使用者参考。</span>
