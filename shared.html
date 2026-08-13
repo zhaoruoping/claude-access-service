@@ -28,7 +28,6 @@
     </li>
     <li><a href="#pay">计费</a>
       <ul>
-        <li><a href="#p-trial">免费测试</a></li>
         <li><a href="#p-buy">购买方式</a></li>
         <li><a href="#p-how">usage 如何扣减</a></li>
         <li><a href="#p-vs">为什么按 usage 计价</a></li>
@@ -88,6 +87,15 @@ sharedcc-claude --help      # 全部命令
 
 <h2 id="pay">计费</h2>
 
+<!-- ⚠️ 2026-08-13 暂时隐藏。用户指出两件事，两件都还没定：
+     ① 写「额度 ¥50」与本页新的 usage 口径不一致，客户会以为是同一种东西；
+     ② 更根本的："usage 如果都卖给用户了，怎么测试呢" —— 试用消耗的是同一个池子，
+        卖满之后就没有产能留给试用了。这是结构问题，不是措辞问题。
+     待定的三条路（等用户拍板后恢复本节）：
+       A. 每周固定预留 N 点作试用池，capacity 里从"可安全出售"中扣掉
+       B. 试用按当周剩余产能安排，售罄则排队
+       C. 试用维持美元额度口径，与购买口径并存，页面上分开讲清楚
+     🔴 恢复时不要自己填点数 —— 换算多少点是定价决定，必须用户给。
 <h3 id="p-trial">免费测试</h3>
 <div class="card">
   <div class="price">额度 ¥50 · 时长 3 小时</div>
@@ -95,6 +103,7 @@ sharedcc-claude --help      # 全部命令
   与额度两项独立计算，任一用尽即停止发送新请求。</p>
   <p style="margin:.6rem 0 0">本机文件不受影响。充值后可直接继续使用，无需重装。</p>
 </div>
+-->
 
 <h3 id="p-buy">购买方式</h3>
 <div class="card">
@@ -104,13 +113,14 @@ sharedcc-claude --help      # 全部命令
 </div>
 
 <table>
-  <thead><tr><th>档位</th><th>每周份额</th><th>时长</th><th>合计</th><th>价格</th></tr></thead>
+  <thead><tr><th>档位</th><th>每周份额</th><th>时长</th><th>价格</th></tr></thead>
   <tbody>
-    <tr><td>Max 5x 当量</td><td>25%</td><td>4 周</td><td>100 点</td><td><strong>¥500</strong></td></tr>
-    <tr><td>Max 5x 当量</td><td>25%</td><td>1 周</td><td>25 点</td><td><strong>¥140</strong></td></tr>
+    <tr><td>Max 5x 当量</td><td>25%</td><td>4 周</td><td><strong>¥500</strong></td></tr>
+    <tr><td>Max 5x 当量</td><td>25%</td><td>1 周</td><td><strong>¥140</strong></td></tr>
   </tbody>
 </table>
-<p class="note">档位按官方的档位比例折算：Max 20x 账号上，一份 Max 5x 当量为每周 25%。</p>
+<p class="note">份额<strong>按周发放，不累积也不结转</strong>——四周档是连续四周每周 25%，
+不是一次性的一百点。档位按官方的档位比例折算：Max 20x 账号上，一份 Max 5x 当量为每周 25%。</p>
 
 <h3 id="p-how">usage 如何扣减</h3>
 <p>按每次请求实际消耗的 token 计算。四类 token —— 输入、输出、缓存写入、缓存读取 ——
@@ -124,9 +134,10 @@ sharedcc-claude --help      # 全部命令
 <h3 id="p-vs">为什么按 usage 而不按 API 额度计价</h3>
 <p>同样的用量，折算成"等效官方 API 额度"因人而异，主要取决于<strong>缓存命中率</strong>。</p>
 <p>缓存读取在官方定价中按输入价的 10% 计费，但它几乎不占用账号的周产能。
-因此缓存命中率越高的用法，同一份 usage 对应的等效 API 额度越高。
-实测中这一差异约 40%：<strong>1 个百分点对应 $14 至 $20 的官方 API 额度</strong>，
-高频复用长上下文的用法落在高端，每次都重新提交完整上下文的用法落在低端。</p>
+因此缓存命中率越高的用法，同一份 usage 对应的等效 API 额度越高。</p>
+<p>实测跨度约 <strong>2.6 倍</strong>：<strong>1 个百分点对应 $14 至 $36 的官方 API 额度</strong>。
+而且高命中率区间尤其敏感——缓存读取占 token 91% 时约 $16，占 97% 时约 $36：
+命中率只差 6 个百分点，等效额度差一倍以上。</p>
 <p>按美元额度报价，须按最不利的情况定价；按 usage 计价，则与用法无关 ——
 买到的份额是确定的，不因缓存命中率高低而变动。</p>
 
