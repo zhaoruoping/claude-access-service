@@ -29,9 +29,10 @@
     <li><a href="#pay">计费</a>
       <ul>
         <li><a href="#p-trial">免费测试</a></li>
-        <li><a href="#p-topup">充值与额度</a></li>
-        <li><a href="#p-calc">额度如何计算</a></li>
-        <li><a href="#p-cycle">额度周期</a></li>
+        <li><a href="#p-buy">购买方式</a></li>
+        <li><a href="#p-how">usage 如何扣减</a></li>
+        <li><a href="#p-vs">为什么按 usage 计价</a></li>
+        <li><a href="#p-cycle">份额周期</a></li>
         <li><a href="#p-fleet">车队</a></li>
       </ul>
     </li>
@@ -70,7 +71,7 @@
 参数原样转交给本机的 Claude Code，例如 <code>sharedcc-claude --model opus</code>。</p>
 
 <h3 id="u-cmd">常用命令</h3>
-<pre><code>sharedcc-claude --quota     # 剩余额度与额度失效时刻
+<pre><code>sharedcc-claude --quota     # 本周剩余份额与刷新时刻
 sharedcc-claude --status    # 服务状态与版本
 sharedcc-claude --update    # 更新到最新版本
 sharedcc-claude --doctor    # 一键体检，输出诊断信息
@@ -95,6 +96,44 @@ sharedcc-claude --help      # 全部命令
   <p style="margin:.6rem 0 0">本机文件不受影响。充值后可直接继续使用，无需重装。</p>
 </div>
 
+<h3 id="p-buy">购买方式</h3>
+<div class="card">
+  <div class="price">按 usage 购买</div>
+  <p style="margin:.4rem 0 0">购买的是账号周用量池的份额，单位是<strong>百分点</strong>。
+  1 点 = 该账号一周总产能的 1%。每周按所购份额发放，随账号的周窗口同步刷新。</p>
+</div>
+
+<table>
+  <thead><tr><th>档位</th><th>每周份额</th><th>时长</th><th>合计</th><th>价格</th></tr></thead>
+  <tbody>
+    <tr><td>Max 5x 当量</td><td>25%</td><td>4 周</td><td>100 点</td><td><strong>¥500</strong></td></tr>
+    <tr><td>Max 5x 当量</td><td>25%</td><td>1 周</td><td>25 点</td><td><strong>¥140</strong></td></tr>
+  </tbody>
+</table>
+<p class="note">档位按官方的档位比例折算：Max 20x 账号上，一份 Max 5x 当量为每周 25%。</p>
+
+<h3 id="p-how">usage 如何扣减</h3>
+<p>按每次请求实际消耗的 token 计算。四类 token —— 输入、输出、缓存写入、缓存读取 ——
+各自乘一个系数后累加，折算为扣减的百分点。</p>
+<p>系数由该账号的实测数据拟合得出，使<strong>扣减量与实际占用的产能成正比</strong>：
+余额随用量线性下降，不会因为用法不同而突然变快或变慢。</p>
+<p>每条请求的扣减独立记录，逐条可查，可随时索取本人的用量明细。
+份额用尽仅停止发送新请求，<strong>本机文件不受影响</strong>。</p>
+<p><code>sharedcc-claude --quota</code> 随时显示本周剩余份额与刷新时刻。</p>
+
+<h3 id="p-vs">为什么按 usage 而不按 API 额度计价</h3>
+<p>同样的用量，折算成"等效官方 API 额度"因人而异，主要取决于<strong>缓存命中率</strong>。</p>
+<p>缓存读取在官方定价中按输入价的 10% 计费，但它几乎不占用账号的周产能。
+因此缓存命中率越高的用法，同一份 usage 对应的等效 API 额度越高。
+实测中这一差异约 40%：<strong>1 个百分点对应 $14 至 $20 的官方 API 额度</strong>，
+高频复用长上下文的用法落在高端，每次都重新提交完整上下文的用法落在低端。</p>
+<p>按美元额度报价，须按最不利的情况定价；按 usage 计价，则与用法无关 ——
+买到的份额是确定的，不因缓存命中率高低而变动。</p>
+
+<!-- ⚠️ 2026-08-13 用户要求：按美元额度购买的方案**先隐藏**（不是删除）。
+     恢复时把下面整段解开注释，并同步删掉上面的 p-buy / p-how / p-vs 三节。
+     🔴 恢复前先确认 pricing.json 的 extras.credit_tiers 与这里写的档位一致 ——
+        比例是唯一真相源，页面写死过一次就漂过一次（见 08-08 那次全页扫描）。
 <h3 id="p-topup">充值与额度</h3>
 <div class="card">
   <div class="price">实付 1 ： 额度 15</div>
@@ -114,10 +153,15 @@ sharedcc-claude --help      # 全部命令
 <p>额度绑定周期，周期与账号的周额度刷新时刻同步。
 <strong>额度在该时刻失效，未用完的部分不结转</strong>，继续使用需重新充值。</p>
 <p><code>sharedcc-claude --quota</code> 随时显示剩余额度与失效时刻。</p>
+-->
+
+<h3 id="p-cycle">份额周期</h3>
+<p>份额随账号的周窗口刷新，每周重新发放。
+<strong>未用完的部分不结转</strong>。</p>
 
 <h3 id="p-fleet">车队</h3>
 <div class="card">
-  <p style="margin:0">人数确定后可组固定车队，单价与上述一致，额度按车队整体安排。
+  <p style="margin:0">人数确定后可组固定车队，单价与上述一致，份额按车队整体安排。
   适用于同一课题组或同一项目共同使用。</p>
 </div>
 <p class="note">需要账号不与他人共享的，见<a href="hosted.html">账号托管</a>。</p>
